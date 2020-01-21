@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -19,8 +19,10 @@ import Show from "components/Appointments/Show";
 import Confirm from "components/Appointments/Confirm";
 import Status from "components/Appointments/Status";
 import Error from "components/Appointments/Error";
+import Form from "components/Appointments/Form";
 
 import { addParameters } from "@storybook/react/dist/client/preview";
+import { act } from "@testing-library/react";
 
 storiesOf("Button", module)
   .addParameters({
@@ -164,3 +166,31 @@ storiesOf("DayList", module)
   message="Could not delete appointment"
   onClose={action("onClose")}
 />)
+.add("Create", ()=>(<Form 
+  interviewers={interviewers}
+  onSave={action("onSave")}
+  onCancel={action("onCancel")}
+/>))
+.add("Edit", ()=>(<Form
+  name="Tausif Khan"
+  interviewers={interviewers}
+  value={5}
+  onSave={action("onSave")}
+  onCancel={action("onCancel")}
+/>))
+.add("Appointment Empty", () => (
+  <Fragment>
+    <Appointment id={1} time="12pm" />
+    <Appointment id="last" time="1pm" />
+  </Fragment>
+))
+.add("Appointment Booked", () => (
+  <Fragment>
+    <Appointment
+      id={1}
+      time="12pm"
+      interview={{ student: "Lydia Miller-Jones", interviewer }}
+    />
+    <Appointment id="last" time="1pm" />
+  </Fragment>
+))
