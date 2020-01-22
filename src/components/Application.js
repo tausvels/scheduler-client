@@ -6,57 +6,60 @@ import "components/DayList";
 
 import DayList from "components/DayList";
 import Appointments from "components/Appointments";
-/* 
-const appointments = [
-  {id: 1, time: "12pm"},
-  {id: 2, time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" }
-    }
-  },
-  {id: 3, time: "2pm",
-    interview: {
-      student: "Jay S",
-      interviewer: { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" }
-    }
-  },
-  {id: 4, time: "3pm"},
-  {id: 5, time: "4pm",
-    interview: {
-      student: "Ruthba Nitia",
-      interviewer: { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-    }
-  }
-];
-*/
-const url = "/api/days"
+import { getAppointmentsForDay } from "helpers/selectors";
+
+const getDaysUrl = "/api/days";
+const getAppointmentUrl = "/api/appointments";
+
 export default function Application() {
 
-  const [day, setDay] = useState("");
-  const [days, setDays] = useState([]);
+  // const [day, setDay] = useState("");
+  // const [days, setDays] = useState([]);
 
+// ---------- STATE MANAGEMENT ------------------------ //
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {}
+  });
+
+  // --------- THE STATE PROPERTY AND THE PARAMETER PASSED NEED TO BE THE SAME --------//
+  //const setDays = (days) => setState((prev) => ({...prev, days}));
+  const setDay = (day) => setState((prevState) => ({...prevState, day}));
+  //const setApp = (app) => setState((prev) => ({...prev, appointments: app}));
+// ----------------------------------------------------//
+// ------------------- USE EFFECT ---------------------//
   useEffect( () => {
-    Axios.get(url)
-     .then((res) => {
-       let result = res.data;
-       console.log("Fetching days");
-       setDays(prev => result);
-     })
-     .catch(e => console.error(e))
-  },[])
+
+    let days = Axios.get(getDaysUrl);
+    let appointments = Axios.get(getAppointmentUrl);
+    
+    Promise.all([
+      Promise.resolve(days),
+      Promise.resolve(appointments)
+    ])
+    .then((all) => {
+      const [first, second] = all; //console.log(all)
+      setState(prev => ({...prev, days: first.data, appointments: second.data}));
+    })
+    .catch(e => console.error(e));
+    
+    
+  }, []);
   
-  useEffect( () => {
-    Axios.get(url)
-     .then((res) => {
-       let result = res.data;
-       console.log("Fetched the day");
-       setDay(prev => result[0].name); //Default value
-     })
-     .catch(e => console.error(e))
-  }, [day])
-/*
-  const appointment = appointments.map(({
+  const appointmentsFound = getAppointmentsForDay(state, state.day);
+
+  // useEffect( () => {
+  //   Axios.get(getDaysUrl)
+  //    .then((res) => {
+  //      let result = res.data;
+  //      console.log("Fetched the day");
+  //      setDay(result[0].name); //Default value
+  //    })
+  //    .catch(e => console.error(e))
+  // }, [state.day])
+
+  const appointment = appointmentsFound.map(({
     id, 
     time, 
     interview
@@ -69,7 +72,7 @@ export default function Application() {
       />
     )
   })
-*/
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -80,7 +83,8 @@ export default function Application() {
           alt="Interview Scheduler"
         />
       <hr className="sidebar__separator sidebar--centered" />
-      <nav className="sidebar__menu"><DayList days={days} day={day} setDay={setDay}/></nav>
+      <nav className="sidebar__menu"><DayList days={state.days} day={state.day} setDay={setDay}/></nav>
+      {/* <nav className="sidebar__menu"><DayList days={state} day={state} setDay={setDay}/></nav> */}
       <img
         className="sidebar__lhl sidebar--centered"
         src="images/lhl.png"
@@ -89,7 +93,7 @@ export default function Application() {
       </section>
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-        {/* {appointment} */}
+        {appointment}
         <Appointments key="last" time="5pm" />
       </section>
     </main>
