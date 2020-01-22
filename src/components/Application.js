@@ -1,28 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 
 import "components/Application.scss";
 import "components/DayList";
 
 import DayList from "components/DayList";
 import Appointments from "components/Appointments";
-
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
+/* 
 const appointments = [
   {id: 1, time: "12pm"},
   {id: 2, time: "1pm",
@@ -45,10 +29,33 @@ const appointments = [
     }
   }
 ];
-
+*/
+const url = "/api/days"
 export default function Application() {
+
+  const [day, setDay] = useState("");
+  const [days, setDays] = useState([]);
+
+  useEffect( () => {
+    Axios.get(url)
+     .then((res) => {
+       let result = res.data;
+       console.log("Fetching days");
+       setDays(prev => result);
+     })
+     .catch(e => console.error(e))
+  },[])
   
-  const [day, setDay] = useState("Monday");
+  useEffect( () => {
+    Axios.get(url)
+     .then((res) => {
+       let result = res.data;
+       console.log("Fetched the day");
+       setDay(prev => result[0].name); //Default value
+     })
+     .catch(e => console.error(e))
+  }, [day])
+/*
   const appointment = appointments.map(({
     id, 
     time, 
@@ -62,7 +69,7 @@ export default function Application() {
       />
     )
   })
-
+*/
   return (
     <main className="layout">
       <section className="sidebar">
@@ -82,7 +89,7 @@ export default function Application() {
       </section>
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
-        {appointment}
+        {/* {appointment} */}
         <Appointments key="last" time="5pm" />
       </section>
     </main>
