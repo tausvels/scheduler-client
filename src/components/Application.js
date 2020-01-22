@@ -10,6 +10,7 @@ import { getAppointmentsForDay } from "helpers/selectors";
 
 const getDaysUrl = "/api/days";
 const getAppointmentUrl = "/api/appointments";
+const getInterviewers = "/api/interviewers";
 
 export default function Application() {
 
@@ -20,10 +21,11 @@ export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
-  // --------- THE STATE PROPERTY AND THE PARAMETER PASSED NEED TO BE THE SAME --------//
+  // --------- -------------------------------- --------//
   //const setDays = (days) => setState((prev) => ({...prev, days}));
   const setDay = (day) => setState((prevState) => ({...prevState, day}));
   //const setApp = (app) => setState((prev) => ({...prev, appointments: app}));
@@ -33,32 +35,23 @@ export default function Application() {
 
     let days = Axios.get(getDaysUrl);
     let appointments = Axios.get(getAppointmentUrl);
+    let interviewersList = Axios.get(getInterviewers);
     
     Promise.all([
       Promise.resolve(days),
-      Promise.resolve(appointments)
+      Promise.resolve(appointments),
+      interviewersList
     ])
     .then((all) => {
-      const [first, second] = all; //console.log(all)
-      setState(prev => ({...prev, days: first.data, appointments: second.data}));
+      const [first, second, third] = all; //console.log(all)
+      setState(prev => ({...prev, days: first.data, appointments: second.data, interviewers: third.data}));
     })
     .catch(e => console.error(e));
     
     
   }, []);
-  
+  console.log(state.interviewers) 
   const appointmentsFound = getAppointmentsForDay(state, state.day);
-
-  // useEffect( () => {
-  //   Axios.get(getDaysUrl)
-  //    .then((res) => {
-  //      let result = res.data;
-  //      console.log("Fetched the day");
-  //      setDay(result[0].name); //Default value
-  //    })
-  //    .catch(e => console.error(e))
-  // }, [state.day])
-
   const appointment = appointmentsFound.map(({
     id, 
     time, 
