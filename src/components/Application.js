@@ -6,7 +6,7 @@ import "components/DayList";
 
 import DayList from "components/DayList";
 import Appointments from "components/Appointments";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterviewersForyDay } from "helpers/selectors";
 
 const getDaysUrl = "/api/days";
 const getAppointmentUrl = "/api/appointments";
@@ -50,21 +50,23 @@ export default function Application() {
     
     
   }, []);
-  console.log(state.interviewers)
+  console.log(state)
 
   // --------------- GENERATE THE APPOINTMENT COMPONENT -------------------------------// 
   const appointmentsFound = getAppointmentsForDay(state, state.day);
+  const interviewersFound = getInterviewersForyDay(state, state.day); console.log('=======>>>>>>',interviewersFound)
   const appointment = appointmentsFound.map(({
     id, 
     time, 
     interview
   }) => {
-    
+
     return (
       <Appointments 
          key={id}
          time={time}
          interview={interview}
+         interviewers={interviewersFound}
       />
     )
   })

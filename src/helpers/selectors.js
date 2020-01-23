@@ -33,3 +33,16 @@ export function getInterview (state, interview) {
   }
   
 }
+
+export function getInterviewersForyDay(state, day) {
+  const wantedDay = state.days.find(a => a.name === day);
+  let wantedApp=[];
+  if(wantedDay){
+    for (let interviewId of wantedDay.interviewers) {
+      if (state.interviewers[interviewId]) {
+        wantedApp.push(state.interviewers[interviewId]);
+      }
+    }
+  }
+  return wantedApp;
+}
