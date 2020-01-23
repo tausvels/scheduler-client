@@ -14,9 +14,6 @@ const getInterviewers = "/api/interviewers";
 
 export default function Application() {
 
-  // const [day, setDay] = useState("");
-  // const [days, setDays] = useState([]);
-
 // ---------- STATE MANAGEMENT ------------------------ //
   const [state, setState] = useState({
     day: "Monday",
@@ -24,11 +21,8 @@ export default function Application() {
     appointments: {},
     interviewers: {}
   });
-
-  // --------- -------------------------------- --------//
-  //const setDays = (days) => setState((prev) => ({...prev, days}));
   const setDay = (day) => setState((prevState) => ({...prevState, day}));
-  //const setApp = (app) => setState((prev) => ({...prev, appointments: app}));
+
 // ----------------------------------------------------//
 // ------------------- USE EFFECT ---------------------//
   useEffect( () => {
@@ -50,23 +44,37 @@ export default function Application() {
     
     
   }, []);
-  console.log(state)
+  // console.log(state)
 
   // --------------- GENERATE THE APPOINTMENT COMPONENT -------------------------------// 
+  function bookInterview (id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState({...state, appointments});
+  }
   const appointmentsFound = getAppointmentsForDay(state, state.day);
-  const interviewersFound = getInterviewersForyDay(state, state.day); console.log('=======>>>>>>',interviewersFound)
+  const interviewersFound = getInterviewersForyDay(state, state.day);
   const appointment = appointmentsFound.map(({
     id, 
     time, 
     interview
   }) => {
-
+    // console.log(interviewersFound)
     return (
       <Appointments 
          key={id}
+         id={id}
          time={time}
          interview={interview}
          interviewers={interviewersFound}
+         bookInterview={bookInterview}
       />
     )
   })

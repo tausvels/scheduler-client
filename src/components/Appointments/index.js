@@ -18,11 +18,33 @@ export default function Appointments ({
   time,
   id,
   interview,
-  interviewers
+  interviewers,
+  bookInterview
 }) {
-  
-  const { mode, transition, back } = useVisualMode (interview ? SHOW : EMPTY);
 
+  //-------------- STATE MANAGEMENT -----------------------------------------------//
+  const { mode, transition, back } = useVisualMode (interview ? SHOW : EMPTY);
+  //-------------------------------------------------------------------------------//
+  const save = function (name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer: interviewer
+    };console.log(id)
+    bookInterview(id, interview);
+    transition(SHOW);
+  };
+  // console.log("interview",interview)
+  
+  const findInterviewer = function (obj, arr) {
+    if (!obj) {return {}} 
+    else {
+      const intId = obj.interviewer;
+      const output = arr.filter(item => item.id === intId)
+      return output[0];
+    }
+  }
+
+  let output = findInterviewer(interview,interviewers); console.log(output)
   return (
     <article className="appointment">
       <Header time={time}/>
@@ -31,10 +53,17 @@ export default function Appointments ({
       {mode === SHOW && (
         <Show 
           student={interview.student}
-          interviewer={interview.interviewer}
+          // interviewer={interview}
+          interviewer={interview}
         />
       )}
-       {mode === CREATE && <Form interviewers={interviewers} onCancel={() => (back())}/>} 
+       {mode === CREATE && (
+         <Form 
+          interviewers={interviewers} 
+          onCancel={() => (back())}
+          onSave={save}
+        />
+       )} 
     </article>
   )
 }
