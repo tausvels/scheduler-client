@@ -16,11 +16,10 @@ export function useVisualMode(initial) {
 
   function back () {
     let historyCopy = history.slice(0);
-    let topEntry; 
     let prevMode;
 
     if (historyCopy.length > 1) {
-      topEntry = historyCopy.shift();
+      historyCopy.shift();
       prevMode = historyCopy[0];
       setHistory((prev) => (historyCopy))
     } else {
