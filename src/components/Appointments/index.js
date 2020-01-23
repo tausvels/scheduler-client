@@ -8,10 +8,13 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from './Form';
+import STATUS from './Status';
+import Status from './Status';
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
-const CREATE = 'CREATE';
+const CREATE = "CREATE";
+const SAVING = "SAVING";
 
 
 export default function Appointments ({  
@@ -25,26 +28,30 @@ export default function Appointments ({
   //-------------- STATE MANAGEMENT -----------------------------------------------//
   const { mode, transition, back } = useVisualMode (interview ? SHOW : EMPTY);
   //-------------------------------------------------------------------------------//
+
+  // ----- FUNCTION DECLARATIONS -------------------------------------------------//
   const save = function (name, interviewer) {
     const interview = {
       student: name,
       interviewer: interviewer
-    };console.log(id)
-    bookInterview(id, interview);
-    transition(SHOW);
+    };
+    transition(SAVING);
+    bookInterview(id, interview)
+    .then(resolve => transition(SHOW))
+    .catch(e => console.error(e));
+    
   };
   // console.log("interview",interview)
   
   const findInterviewer = function (obj, arr) {
-    if (!obj) {return {}} 
+    if (!obj) {return {name:""}} 
     else {
       const intId = obj.interviewer;
       const output = arr.filter(item => item.id === intId)
       return output[0];
     }
   }
-
-  let output = findInterviewer(interview,interviewers); console.log(output)
+  // ------------------------------------------------------------------------------//
   return (
     <article className="appointment">
       <Header time={time}/>
@@ -54,16 +61,19 @@ export default function Appointments ({
         <Show 
           student={interview.student}
           // interviewer={interview}
-          interviewer={interview}
+          interviewer={findInterviewer(interview,interviewers)}
         />
       )}
-       {mode === CREATE && (
-         <Form 
-          interviewers={interviewers} 
-          onCancel={() => (back())}
-          onSave={save}
-        />
-       )} 
+      {mode === SAVING && (
+        <Status message={`SAVING`}/>
+      )}
+      {mode === CREATE && (
+        <Form 
+        interviewers={interviewers} 
+        onCancel={() => (back())}
+        onSave={save}
+      />
+      )} 
     </article>
   )
 }

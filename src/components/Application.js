@@ -48,7 +48,7 @@ export default function Application() {
 
   // --------------- GENERATE THE APPOINTMENT COMPONENT -------------------------------// 
   function bookInterview (id, interview) {
-    console.log(id, interview);
+    // console.log(id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -57,8 +57,20 @@ export default function Application() {
       ...state.appointments,
       [id]: appointment
     };
-    setState({...state, appointments});
+    console.log('interview', interview);
+    let req = {
+      url: `http://localhost:8001/api/appointments/${id}`,
+      method: `PUT`,
+      data: {interview}
+    }
+    return Axios(req)
+    .then(res => {console.log(res.status)
+      setState({...state, appointments});
+    });
+      
+    // console.log('Interview ----->>> ', {id: id, interview: interview}); 
   }
+
   const appointmentsFound = getAppointmentsForDay(state, state.day);
   const interviewersFound = getInterviewersForyDay(state, state.day);
   const appointment = appointmentsFound.map(({
