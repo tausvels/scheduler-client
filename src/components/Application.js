@@ -50,13 +50,16 @@ export default function Application() {
     
     
   }, []);
-  console.log(state.interviewers) 
+  console.log(state.interviewers)
+
+  // --------------- GENERATE THE APPOINTMENT COMPONENT -------------------------------// 
   const appointmentsFound = getAppointmentsForDay(state, state.day);
   const appointment = appointmentsFound.map(({
     id, 
     time, 
     interview
   }) => {
+    
     return (
       <Appointments 
          key={id}
@@ -65,7 +68,7 @@ export default function Application() {
       />
     )
   })
-
+  // ------------------------------------------------------------------------------------ //
   return (
     <main className="layout">
       <section className="sidebar">
