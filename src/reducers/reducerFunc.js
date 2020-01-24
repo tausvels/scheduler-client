@@ -13,12 +13,9 @@ export function reducer(state, action) {
       return { ...state, days, appointments, interviewers }
 
     case SET_INTERVIEW: {
-      // const appointment = state.appointments[id];
-      // appointment.interview = { ...interview };
-      const appointment = {
-        ...state.appointments[id],
-        interview
-      };
+      const appointment = state.appointments[id];
+      appointment.interview = { ...interview };
+      
       const appointments = {
         ...state.appointments,
         [id]: appointment

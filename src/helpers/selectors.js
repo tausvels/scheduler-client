@@ -57,7 +57,7 @@ export const getSpotsForDay = (appointments, days, day) => {
   const filledSpots = Object.values(appointmentsSpread).reduce(
     (total, appointment) => {
       if (appointmentList.includes(appointment.id)) {
-        if (appointment.interview) {
+        if (appointment.interview && appointment.interview.student) {
           return total + 1;
         }
       }

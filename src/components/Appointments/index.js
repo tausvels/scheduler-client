@@ -71,6 +71,7 @@ export default function Appointments ({
     // setTimeout(()=>{transition("EMPTY")}, 2000);
     // transition("EMPTY")
   }
+  console.log(`Interview:: ====>>> ${interview}`, interview)
   console.log(findInterviewer(interview, interviewers))
   // const editInterview = function (id, interview) {
   //   transition("")

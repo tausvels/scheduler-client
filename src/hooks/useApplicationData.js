@@ -67,7 +67,7 @@ export default function useApplicationData () {
       method: `DELETE`
     }
     return Axios(req)
-    .then(dispatch({ type: SET_INTERVIEW, id, interview: null }))
+    .then(dispatch({ type: SET_INTERVIEW, id, interview: {} }))
   }
 
   return {

@@ -9,9 +9,9 @@ export function useVisualMode(initial) {
     if (!replace) {
       setHistory((prev) => ([newMode, ...prev]))
     } else {
-      setHistory((prev) => (prev))
+      setHistory((prev) => [newMode, ...prev.slice(1)])
     }
-    return setMode((prev) => (newMode))
+    return setMode(() => newMode)
   }
 
   function back () {
