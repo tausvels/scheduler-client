@@ -48,15 +48,15 @@ export default function useApplicationData () {
 
   }, []);
 
-  const bookInterview = function (id, interviewObj) {
+  const bookInterview = function (id, interview) {
     const req = {
       url: `/api/appointments/${id}`,
       method: `PUT`,
-      data: {interviewObj}
+      data: {interview}
     }
     return Axios(req)
     .then(dispatch({
-      type: SET_INTERVIEW, id, interviewObj
+      type: SET_INTERVIEW, id, interview
     }))
     .catch(e => console.error(e))
   };

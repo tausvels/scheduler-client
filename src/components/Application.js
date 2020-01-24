@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useReducer } from "react";
-import Axios from "axios";
+import React from "react";
 
 import "components/Application.scss";
 
 import useApplicationData from "../hooks/useApplicationData";
-
 import DayList from "components/DayList";
 import Appointments from "components/Appointments";
+
 // ------------ HELPER FUNCTIONS ----------------------- //
 import { 
   getAppointmentsForDay, 
