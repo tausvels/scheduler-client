@@ -36,7 +36,7 @@ export default function useApplicationData () {
       interviewersList
     ])
     .then((response) => {
-      const [daysData, appointmentsData, interviewersData] = all;
+      const [daysData, appointmentsData, interviewersData] = response;
       dispatch({
         type: SET_APPLICATION_DATA,
         days: daysData.data,
