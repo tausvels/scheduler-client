@@ -36,7 +36,7 @@ export default function Appointments ({
 
   // ----- FUNCTION DECLARATIONS -------------------------------------------------//
   const findInterviewer = function (obj, arr) {
-    if (!obj) {return {name:""}} 
+    if (!obj) {return {name: ""}} 
     else {
       const intId = obj.interviewer;
       const output = arr.filter(item => item.id === intId)
@@ -71,7 +71,7 @@ export default function Appointments ({
     // setTimeout(()=>{transition("EMPTY")}, 2000);
     // transition("EMPTY")
   }
-  
+  console.log(findInterviewer(interview, interviewers))
   // const editInterview = function (id, interview) {
   //   transition("")
   // }
@@ -85,7 +85,8 @@ export default function Appointments ({
           id={id} 
           student={(interview) ? interview.student : ''}
           interview={interview}
-          interviewer={findInterviewer(interview,interviewers)}
+          interviewer={findInterviewer(interview, interviewers)}
+          // interviewer={interviewers}
           onDelete={()=>(transition(CONFIRM))}
           onEdit={() => (transition(EDIT))}
         />

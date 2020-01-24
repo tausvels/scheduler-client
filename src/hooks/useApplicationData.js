@@ -8,7 +8,7 @@ import {
   SET_INTERVIEW
 } from "../reducers/reducerFunc";
 
-export default useApplicationData () {
+export default function useApplicationData () {
 
   // ------------ STATE MANAGEMENT --------------------------- //
   const [state, dispatch] = useReducer(reducer, {

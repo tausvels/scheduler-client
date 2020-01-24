@@ -6,7 +6,12 @@ import "components/DayList";
 
 import DayList from "components/DayList";
 import Appointments from "components/Appointments";
-import { getAppointmentsForDay, getInterviewersForyDay } from "helpers/selectors";
+import { 
+  getAppointmentsForDay, 
+  getInterviewersForyDay,
+  getSpotsForDay,
+  getInterview
+} from "helpers/selectors";
 
 const getDaysUrl = "/api/days";
 const getAppointmentUrl = "/api/appointments";
@@ -117,7 +122,14 @@ export default function Application() {
           alt="Interview Scheduler"
         />
       <hr className="sidebar__separator sidebar--centered" />
-      <nav className="sidebar__menu"><DayList days={state.days} day={state.day} setDay={setDay}/></nav>
+      <nav className="sidebar__menu">
+        <DayList 
+          days={state.days} 
+          day={state.day} 
+          setDay={setDay}
+          getSpots={getSpotsForDay}
+          appointments={state.appointments}
+        /></nav>
       {/* <nav className="sidebar__menu"><DayList days={state} day={state} setDay={setDay}/></nav> */}
       <img
         className="sidebar__lhl sidebar--centered"
