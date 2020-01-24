@@ -10,6 +10,7 @@ import Empty from "./Empty";
 import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
+import Error from './Error';
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -18,6 +19,7 @@ const SAVING = "SAVING";
 const EDIT = "EDIT";
 const CONFIRM = "CONFIRM";
 const DELETE = "DELETE";
+const ERROR = "ERROR";
 
 export default function Appointments ({  
   time,
@@ -50,7 +52,10 @@ export default function Appointments ({
     transition(SAVING);
     bookInterview(id, interview)
     .then(resolve => transition(SHOW))
-    .catch(e => console.error(e));
+    .catch(e => {
+      console.error(e);
+      transition(ERROR);
+    });
     
   };
 
@@ -59,7 +64,10 @@ export default function Appointments ({
     transition("DELETE")
     cancelInterview(id, interview)
     .then(resolve => {transition("EMPTY")})
-    .catch(e => console.error(e));
+    .catch(e => {
+      console.error(e);
+      transition(ERROR);
+    });
     // setTimeout(()=>{transition("EMPTY")}, 2000);
     // transition("EMPTY")
   }
@@ -109,6 +117,7 @@ export default function Appointments ({
         />
       )}
       {mode === DELETE && (<Status message={`DELETING`}/>)} 
+      {mode === ERROR && (<Error message={`SERVER ERROR 500`} onClose={() => (transition(SHOW))}/>)}
     </article>
   )
 }
