@@ -79,7 +79,6 @@ export default function Appointments ({
   return (
     <article className="appointment">
       <Header time={time}/>
-      {/* {(interview) ? <Show student={interview.student} interviewer={interview.interviewer}/> : <Empty />} */}
       {mode === EMPTY && <Empty onAdd={() => (transition(CREATE))}/>}
       {mode === SHOW && (
         <Show

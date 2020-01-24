@@ -41,47 +41,43 @@ export default function Application() {
       setState(prev => ({...prev, days: first.data, appointments: second.data, interviewers: third.data}));
     })
     .catch(e => console.error(e));
-    
-    
   }, []);
-  // console.log(state)
 
   // --------------- GENERATE THE APPOINTMENT COMPONENT -------------------------------// 
   function bookInterview (id, interview) {
     // console.log(id, interview);
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
+    const appointment = state.appointments[id];
+    appointment.interview = { ...interview };
+
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
-    console.log('interview', interview);
-    let req = {
-      url: `http://localhost:8001/api/appointments/${id}`,
+    
+    const req = {
+      url: `/api/appointments/${id}`,
       method: `PUT`,
       data: {interview}
     }
     return Axios(req)
-    .then(res => {console.log(res.status)
-      setState({...state, appointments});
-    }); 
+    .then(res => setState({...state, appointments}));
+
   }
 
   function cancelInterview (id, interview) {
+    interview = {};
     const appointment = {
       ...state.appointments[id],
       interview: null
-    };
+    }; console.log(interview)
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
     let req = {
-      url: `http://localhost:8001/api/appointments/${id}`,
-      method: `PUT`,
-      data: {}
+      url: `/api/appointments/${id}`,
+      method: `DELETE`,
+      data: {interview}
     }
     return Axios(req)
     .then(res => {
@@ -90,8 +86,8 @@ export default function Application() {
     });
   }
 
-  const appointmentsFound = getAppointmentsForDay(state, state.day);
   const interviewersFound = getInterviewersForyDay(state, state.day);
+  const appointmentsFound = getAppointmentsForDay(state, state.day);
   const appointment = appointmentsFound.map(({
     id, 
     time, 
