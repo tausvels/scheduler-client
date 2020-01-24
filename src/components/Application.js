@@ -9,8 +9,7 @@ import Appointments from "components/Appointments";
 import { 
   getAppointmentsForDay, 
   getInterviewersForyDay,
-  getSpotsForDay,
-  getInterview
+  getSpotsForDay
 } from "helpers/selectors";
 
 const getDaysUrl = "/api/days";
