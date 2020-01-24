@@ -8,21 +8,24 @@ import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
 import Form from './Form';
-import STATUS from './Status';
 import Status from './Status';
+import Confirm from './Confirm';
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
-
+const EDIT = "EDIT";
+const CONFIRM = "CONFIRM";
+const DELETE = "DELETE";
 
 export default function Appointments ({  
   time,
   id,
   interview,
   interviewers,
-  bookInterview
+  bookInterview,
+  cancelInterview
 }) {
 
   //-------------- STATE MANAGEMENT -----------------------------------------------//
@@ -30,6 +33,15 @@ export default function Appointments ({
   //-------------------------------------------------------------------------------//
 
   // ----- FUNCTION DECLARATIONS -------------------------------------------------//
+  const findInterviewer = function (obj, arr) {
+    if (!obj) {return {name:""}} 
+    else {
+      const intId = obj.interviewer;
+      const output = arr.filter(item => item.id === intId)
+      return output[0];
+    }
+  }
+
   const save = function (name, interviewer) {
     const interview = {
       student: name,
@@ -41,16 +53,20 @@ export default function Appointments ({
     .catch(e => console.error(e));
     
   };
-  // console.log("interview",interview)
-  
-  const findInterviewer = function (obj, arr) {
-    if (!obj) {return {name:""}} 
-    else {
-      const intId = obj.interviewer;
-      const output = arr.filter(item => item.id === intId)
-      return output[0];
-    }
+
+  const deleteInterview = function (id, interview) {
+    // console.log(id)
+    transition("DELETE")
+    cancelInterview(id, interview)
+    .then(resolve => {transition("EMPTY")})
+    .catch(e => console.error(e));
+    // setTimeout(()=>{transition("EMPTY")}, 2000);
+    // transition("EMPTY")
   }
+  
+  // const editInterview = function (id, interview) {
+  //   transition("")
+  // }
   // ------------------------------------------------------------------------------//
   return (
     <article className="appointment">
@@ -58,22 +74,41 @@ export default function Appointments ({
       {/* {(interview) ? <Show student={interview.student} interviewer={interview.interviewer}/> : <Empty />} */}
       {mode === EMPTY && <Empty onAdd={() => (transition(CREATE))}/>}
       {mode === SHOW && (
-        <Show 
-          student={interview.student}
-          // interviewer={interview}
+        <Show
+          id={id} 
+          student={(interview) ? interview.student : ''}
+          interview={interview}
           interviewer={findInterviewer(interview,interviewers)}
+          onDelete={()=>(transition(CONFIRM))}
+          onEdit={() => (transition(EDIT))}
         />
       )}
-      {mode === SAVING && (
-        <Status message={`SAVING`}/>
-      )}
+      {mode === SAVING && (<Status message={`SAVING`}/>)}
       {mode === CREATE && (
         <Form 
         interviewers={interviewers} 
         onCancel={() => (back())}
         onSave={save}
       />
-      )} 
+      )}
+      {mode === EDIT && (
+        <Form 
+          name={interview.student}
+          value={interview.interviewer}
+          interviewers={interviewers}
+          onCancel={() => (back())}
+          onSave={save}
+        />)}
+      {mode === CONFIRM && (
+        <Confirm 
+          id={id}
+          interview={interview}
+          message="Are you sure you want to delete?"
+          onConfirm={deleteInterview}
+          onCancel={()=>(transition("SHOW"))}
+        />
+      )}
+      {mode === DELETE && (<Status message={`DELETING`}/>)} 
     </article>
   )
 }

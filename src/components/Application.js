@@ -66,9 +66,28 @@ export default function Application() {
     return Axios(req)
     .then(res => {console.log(res.status)
       setState({...state, appointments});
+    }); 
+  }
+
+  function cancelInterview (id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    let req = {
+      url: `http://localhost:8001/api/appointments/${id}`,
+      method: `PUT`,
+      data: {}
+    }
+    return Axios(req)
+    .then(res => {
+      console.log(res.status);
+      setState({...state, appointments});
     });
-      
-    // console.log('Interview ----->>> ', {id: id, interview: interview}); 
   }
 
   const appointmentsFound = getAppointmentsForDay(state, state.day);
@@ -87,6 +106,7 @@ export default function Application() {
          interview={interview}
          interviewers={interviewersFound}
          bookInterview={bookInterview}
+         cancelInterview={cancelInterview}
       />
     )
   })
