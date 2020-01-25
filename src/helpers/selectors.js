@@ -65,6 +65,5 @@ export const getSpotsForDay = (appointments, days, day) => {
     },
     0
   );
-
   return availableSpots - filledSpots;
 };

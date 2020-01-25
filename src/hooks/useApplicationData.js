@@ -24,6 +24,7 @@ export default function useApplicationData () {
     const getDaysUrl = `/api/days`;
     const getAppointmentsUrl = `/api/appointments`;
     const getInterviewersUrl = `/api/interviewers`;
+
   // ------------ FETCHING DATA FROM API --------------------------- //
   useEffect(() => {
     const days = Axios.get(getDaysUrl);

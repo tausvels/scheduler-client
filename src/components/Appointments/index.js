@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
-
+import React from 'react';
 import "./styles.scss";
-
 import {useVisualMode} from "../../hooks/useVisualMode";
 
+// ----------------- IMPORTING COMPONENTS ----------------------- //
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -11,7 +10,7 @@ import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
 import Error from './Error';
-
+// --------- DECLARING TRANSITION VARIABLES USED BY THE HOOK ---- //
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
@@ -34,7 +33,7 @@ export default function Appointments ({
   const { mode, transition, back } = useVisualMode (interview ? SHOW : EMPTY);
   //-------------------------------------------------------------------------------//
 
-  // ----- FUNCTION DECLARATIONS -------------------------------------------------//
+  // ------------- FUNCTION DECLARATIONS ------------------------------------------//
   const findInterviewer = function (obj, arr) {
     if (!obj) {return {name: ""}} 
     else {
@@ -51,19 +50,17 @@ export default function Appointments ({
     };
     transition(SAVING);
     bookInterview(id, interview)
-    .then(resolve => transition(SHOW))
+    .then(() => transition(SHOW))
     .catch(e => {
       console.error(e);
       transition(ERROR);
     });
-    
   };
 
   const deleteInterview = function (id, interview) {
-    // console.log(id)
     transition("DELETE")
     cancelInterview(id, interview)
-    .then(resolve => {transition("EMPTY")})
+    .then(() => {transition("EMPTY")})
     .catch(e => {
       console.error(e);
       transition(ERROR);
@@ -71,11 +68,7 @@ export default function Appointments ({
     // setTimeout(()=>{transition("EMPTY")}, 2000);
     // transition("EMPTY")
   }
-  console.log(`Interview:: ====>>> ${interview}`, interview)
-  console.log(findInterviewer(interview, interviewers))
-  // const editInterview = function (id, interview) {
-  //   transition("")
-  // }
+  // console.log(`Interview:: ====>>> ${interview}`)
   // ------------------------------------------------------------------------------//
   return (
     <article className="appointment">
