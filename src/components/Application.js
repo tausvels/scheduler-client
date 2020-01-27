@@ -33,7 +33,7 @@ export default function Application() {
       />
     )
   })
-  // ---------------------------------------------------- //
+  // --------------------------------------------------- //
   return (
     <main className="layout">
       <section className="sidebar">
