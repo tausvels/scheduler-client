@@ -50,7 +50,7 @@ export default function useApplicationData () {
     .catch(e => console.error('', e))
 
   }, []);
-
+/*
   const bookInterview = function (id, interview) {
     const req = {
       url: `/api/appointments/${id}`,
@@ -63,7 +63,15 @@ export default function useApplicationData () {
     }))
     .catch(e => console.error(e))
   };
-
+*/
+const bookInterview = function (id, interview) {
+  return (
+    Axios.put(`/api/appointments/${id}`, {interview})
+    .then(() => {
+      dispatch({type: SET_INTERVIEW, id, interview})
+    }).catch(e => console.error(e))
+  )
+}
   const cancelInterview = function (id) {
     const req = {
       url: `/api/appointments/${id}`,
