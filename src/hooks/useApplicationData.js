@@ -21,12 +21,14 @@ export default function useApplicationData () {
   const setDay = day => dispatch({type: SET_DAY, day});
 
   //- HAVE TO USE USE-EFFECT BECAUSE DATA IS RETRIEVED FROM API AND THEN USED TO UPDATE STATE ----- //
+
+
+  // ------------ FETCHING DATA FROM API --------------------------- //
+  useEffect(() => {
     const getDaysUrl = `/api/days`;
     const getAppointmentsUrl = `/api/appointments`;
     const getInterviewersUrl = `/api/interviewers`;
 
-  // ------------ FETCHING DATA FROM API --------------------------- //
-  useEffect(() => {
     const days = Axios.get(getDaysUrl);
     const appointments = Axios.get(getAppointmentsUrl);
     const interviewersList = Axios.get(getInterviewersUrl);
@@ -45,7 +47,7 @@ export default function useApplicationData () {
         interviewers: interviewersData.data
       })
     })
-    .catch(e => console.error(e))
+    .catch(e => console.error('', e))
 
   }, []);
 
