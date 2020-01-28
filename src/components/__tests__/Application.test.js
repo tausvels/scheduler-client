@@ -76,7 +76,7 @@ describe("Application", () => {
     expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 
-  it ("loads data, deletes an interview and increases the spots remaining for Monday to 2", async () => {
+  xit ("loads data, deletes an interview and increases the spots remaining for Monday to 2", async () => {
     const {container, debug} = render(<Application />); 
     await waitForElement(() => getByText(container, "Archie Cohen"));
     const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
@@ -85,11 +85,32 @@ describe("Application", () => {
     fireEvent.click(getByText(appointment, "Confirm"));
     expect(getByText(appointment, "DELETING")).toBeInTheDocument();
     await waitForElement( () => getByAltText(appointment,"Add") );
-    
+
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
     )
     expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   })
+
+  it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
+    
+    const {container, debug} = render(<Application />);
+    await waitForElement ( ()=> getByText(container, "Archie Cohen") );
+    const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
+    expect(getByAltText(appointment, "Edit")).toBeInTheDocument();
+    fireEvent.click(getByAltText(appointment, "Edit"));
+    expect(getByText(appointment, "Save")).toBeInTheDocument();
+    fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
+      target: { value: "Tausif Khan" }
+    });
+    fireEvent.click(getByText(appointment, "Save"));
+    expect(getByText(appointment, "SAVING")).toBeInTheDocument();
+    await waitForElement(() => getByText(appointment, "Tausif Khan"));
+    
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+  });
 
 })
