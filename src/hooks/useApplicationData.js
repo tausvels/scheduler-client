@@ -71,7 +71,8 @@ const bookInterview = function (id, interview) {
       dispatch({type: SET_INTERVIEW, id, interview})
     }).catch(e => console.error(e))
   )
-}
+};
+/*
   const cancelInterview = function (id) {
     const req = {
       url: `/api/appointments/${id}`,
@@ -80,6 +81,15 @@ const bookInterview = function (id, interview) {
     return Axios(req)
     .then(dispatch({ type: SET_INTERVIEW, id, interview: {} }))
   }
+*/
+const cancelInterview = function (id) {
+  return (
+    Axios.delete(`/api/appointments/${id}`)
+    .then(() => {
+      dispatch({type: SET_INTERVIEW, id, interview: {}})
+    }).catch(e => console.error(e))
+  )
+};
 
   return {
     state,
