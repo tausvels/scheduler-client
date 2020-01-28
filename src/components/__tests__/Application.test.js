@@ -10,7 +10,7 @@ import {
   fireEvent,
   prettyDOM, 
   getByAltText,
-  act
+  queryByText
 } from "@testing-library/react";
 
 import Application from "components/Application";
@@ -51,9 +51,8 @@ describe("Application", () => {
   it("loads data, books an interview and reduces the spots remaining for Monday by 1", async () => {
     const { container, debug } = render(<Application />);
     await waitForElement( () => getByText(container, 'Archie Cohen'));
-    const appointment = getAllByTestId(container, "appointment")[0]; // Returns an array of all article dom nodes
-    console.log(prettyDOM(appointment));
-    
+    const appointment = getAllByTestId(container, "appointment")[0];
+
     // ----- Adding the events specific to this appointment to test the save action ---- //
     fireEvent.click(getByAltText(appointment, "Add"));
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
@@ -61,11 +60,19 @@ describe("Application", () => {
     });
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
     
+    fireEvent.click(getByText(appointment, "Save"))
+    expect(getByText(appointment, "SAVING")).toBeInTheDocument();
     
-    await act( async () => { await fireEvent.click(getByText(appointment, "Save"))})
+    // ------------ USING THE ASYNC AWAIT METHOD TO WAIT TO FINISH SAVING --------------- //
+    // await act( async () => { await fireEvent.click(getByText(appointment, "Save"))})
+
+    // ------------ USING THE 'WAITFORELEMENT() TO WAIT TO FINISH SAVING ---------------- //
+    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
     
-    // console.log(prettyDOM(appointment));
-    debug(appointment)
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
   });
 
 })

@@ -10,7 +10,7 @@ export default function DayList ({
     <DayListItem 
       key={d.id}
       name={d.name}
-      spots={getSpots(appointments, days, d.name) || 5}
+      spots={getSpots(appointments, days, d.name) || ""}
       selected={d.name === day}
       setDay={setDay}
     />
