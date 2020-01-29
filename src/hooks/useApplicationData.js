@@ -69,7 +69,7 @@ const bookInterview = function (id, interview) {
     Axios.put(`/api/appointments/${id}`, {interview})
     .then(() => {
       dispatch({type: SET_INTERVIEW, id, interview})
-    }).catch(e => console.error(e))
+    })
   )
 };
 /*
