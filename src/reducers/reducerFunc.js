@@ -11,9 +11,9 @@ export function reducer(state, action) {
     case SET_APPLICATION_DATA:
       return { ...state, days, appointments, interviewers }
 
-    case SET_INTERVIEW: {
+    case SET_INTERVIEW: {console.log("set interview called!!")
       const appointment = state.appointments[id];
-      appointment.interview = { ...interview };
+      appointment.interview = interview ;
       
       const appointments = {
         ...state.appointments,

@@ -86,7 +86,7 @@ const cancelInterview = function (id) {
   return (
     Axios.delete(`/api/appointments/${id}`)
     .then(() => {
-      dispatch({type: SET_INTERVIEW, id, interview: {}})
+      dispatch({type: SET_INTERVIEW, id, interview: null})
     }).catch(e => console.error(e))
   )
 };
@@ -97,10 +97,7 @@ useEffect(() => {
 
   socket.onmessage = function(event) {
     const data = JSON.parse(event.data);
-
-    if (typeof data === 'object' && data.type) {
-      return dispatch(data);
-    }
+    dispatch(data);
   };
   return () => socket.close();
 }, []);

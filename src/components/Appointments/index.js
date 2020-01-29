@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./styles.scss";
 import {useVisualMode} from "../../hooks/useVisualMode";
 
@@ -43,7 +43,7 @@ export default function Appointments ({
     }
   }
 
-  const save = function (name, interviewer) {
+  const save = function (name, interviewer) {console.log("inside save ==> ", name, interviewer)
     const interview = {
       student: name,
       interviewer: interviewer
@@ -59,7 +59,7 @@ export default function Appointments ({
 
   const deleteInterview = function (id, interview) {
     transition("DELETE")
-    cancelInterview(id, interview)
+    cancelInterview(id)
     .then(() => {transition("EMPTY")})
     .catch(e => {
       console.error(e);
@@ -69,6 +69,16 @@ export default function Appointments ({
     // transition("EMPTY")
   }
   // console.log(`Interview:: ====>>> ${interview}`)
+
+  const state = useVisualMode(interview ? SHOW : EMPTY);
+  useEffect(()=> {
+    if (interview &&  mode === EMPTY) {console.log(mode)
+      transition(SHOW)
+    } 
+    if (!interview && mode === SHOW ) {console.log(mode)
+      transition(EMPTY)
+    }
+  }, [interview]);
   // ------------------------------------------------------------------------------//
   return (
     <article className="appointment" data-testid="appointment">
