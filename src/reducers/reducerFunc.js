@@ -4,7 +4,6 @@ export const SET_INTERVIEW = "SET_INTERVIEW";
 
 export function reducer(state, action) {
   const { appointments, days, day, id, interviewers, interview, type } = action;
-  
   switch (type) {
     case SET_DAY:
       return { ...state, day }
