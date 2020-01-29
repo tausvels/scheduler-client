@@ -92,6 +92,18 @@ const cancelInterview = function (id) {
 };
 
 // ------------- WEB SOCKET CONNECTION SECTION ------------------ //
+useEffect(() => {
+  const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+  socket.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+
+    if (typeof data === 'object' && data.type) {
+      return dispatch(data);
+    }
+  };
+  return () => socket.close();
+}, []);
 
   return {
     state,
