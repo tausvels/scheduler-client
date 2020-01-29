@@ -91,6 +91,8 @@ const cancelInterview = function (id) {
   )
 };
 
+// ------------- WEB SOCKET CONNECTION SECTION ------------------ //
+
   return {
     state,
     setDay,
