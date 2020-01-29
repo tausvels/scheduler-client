@@ -70,7 +70,6 @@ export default function Appointments ({
   }
   // console.log(`Interview:: ====>>> ${interview}`)
 
-  const state = useVisualMode(interview ? SHOW : EMPTY);
   useEffect(()=> {
     if (interview &&  mode === EMPTY) {console.log(mode)
       transition(SHOW)
@@ -78,7 +77,7 @@ export default function Appointments ({
     if (!interview && mode === SHOW ) {console.log(mode)
       transition(EMPTY)
     }
-  }, [interview]);
+  }, [interview, mode, transition]);
   // ------------------------------------------------------------------------------//
   return (
     <article className="appointment" data-testid="appointment">

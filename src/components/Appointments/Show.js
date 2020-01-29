@@ -19,7 +19,7 @@ export default function Show ({
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <img
+        <img
             className="appointment__actions-button"
             src="images/edit.png"
             alt="Edit"
