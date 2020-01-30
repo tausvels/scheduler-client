@@ -93,7 +93,6 @@ const cancelInterview = function (id) {
 
 // ------------- WEB SOCKET CONNECTION SECTION ------------------ //
 useEffect(() => {
-  console.log("Inside Websocket =====>>> ",process.env.REACT_APP_WEBSOCKET_URL);
   const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
   socket.onmessage = function(event) {
