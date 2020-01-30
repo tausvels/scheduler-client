@@ -19,7 +19,7 @@ Install dependencies with `npm install`.
 
 ## User Experience Screenshots
 
-[Landing_page](screenshots/1.landing_pg.PNG)
+!["LandingPage"](screenshots/1.landing_pg.PNG)
 [Booking_interview_process]()
 [Edit_delete_interview]()
 [Multiple_interview and slot update]()
