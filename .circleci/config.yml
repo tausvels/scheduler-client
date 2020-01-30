@@ -1,4 +1,4 @@
-version: 2
+ersion: 2
 jobs:
   build:
     docker:
@@ -19,8 +19,33 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
 
+  deploy:
+    machine:
+      enabled: true
+
+    working_directory: ~/client
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "2d:63:6f:d9:8b:9d:52:5c:39:96:b5:cf:2a:bc:ae:83"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push https://github.com/tausvels/scheduler.git master:production
+
 workflows:
   version: 2
-  test:
+  test_and_deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: production
+      - deploy:
+          filters:
+            branches:
+              ignore: production
+          requires:
+            - build
