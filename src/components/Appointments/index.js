@@ -71,10 +71,10 @@ export default function Appointments ({
   // console.log(`Interview:: ====>>> ${interview}`)
 
   useEffect(()=> {
-    if (interview &&  mode === EMPTY) {console.log(mode)
+    if (interview &&  mode === EMPTY) {
       transition(SHOW)
     } 
-    if (!interview && mode === SHOW ) {console.log(mode)
+    if (!interview && mode === SHOW ) {
       transition(EMPTY)
     }
   }, [interview, mode, transition]);
