@@ -1,4 +1,4 @@
-import reducer from "./reducerFunc";
+import {reducer} from "./reducerFunc";
 
 describe("Application Reducer", () => {
   it("thows an error with an unsupported type", () => {
