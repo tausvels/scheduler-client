@@ -114,7 +114,7 @@ describe("Application", () => {
     expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 
-  it("shows the save error when failing to save an appointment", async () => {
+  xit("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
 
     const { container, debug } = render(<Application />);
