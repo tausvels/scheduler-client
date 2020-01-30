@@ -1,8 +1,28 @@
 # Interview Scheduler
+A single page REACT based web application that lets the user book an interview with a set of given Interviewers served from an API being hosted at https://scheduleinterview.herokuapp.com/api/interviewers. The API also contains a list of days from Monday to Friday and time slots between 12pm to 5pm.
+
+The app is capable of doing the following things:
+- Book an interview in an empty slot.
+- Edit and delete an interview.
+- Save or delete an ionterview to the database that is being served on the heroku site.
+- Decrease the number of slots available when an interview is booked.
+- Increase the number of slots available when an interview is cancelled.
+- Update the GUI for other users REAL TIME on the number of slots and time range available to book an interview.   
+
+## Link to the deployed Application
+
+https://scheduleinterview.netlify.com/  
 
 ## Setup
 
 Install dependencies with `npm install`.
+
+## User Experience Screenshots
+
+[Landing_page](screenshots/1.landing_pg.PNG)
+[Booking_interview_process]()
+[Edit_delete_interview]()
+[Multiple_interview and slot update]()
 
 ## Running Webpack Development Server
 
