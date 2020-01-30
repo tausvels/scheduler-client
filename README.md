@@ -20,9 +20,9 @@ Install dependencies with `npm install`.
 ## User Experience Screenshots
 
 !["LandingPage"](screenshots/1.landing_pg.PNG)
-[Booking_interview_process]()
-[Edit_delete_interview]()
-[Multiple_interview and slot update]()
+!["Booking_interview_process"](screenshots/2.booking_interview_process.PNG)
+!["Edit_delete_interview"](screenshots/3.edit_delete_interview.PNG)
+!["Multiple_interview and slot update"](screenshots/4.delete_and_multiple_interview.PNG)
 
 ## Running Webpack Development Server
 
