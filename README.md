@@ -18,7 +18,10 @@ The app is capable of doing the following things:
 
 ## Link to the deployed Application
 
-https://scheduleinterview.netlify.com/ 
+https://scheduleinterview.netlify.com/
+
+## Link to the server-api
+https://github.com/tausvels/scheduler-api
 
 ## Technical Specifications
 
